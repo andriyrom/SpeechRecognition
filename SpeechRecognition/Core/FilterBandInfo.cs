@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpeechRecognition {
+namespace SpeechRecognition.Core {
     class FilterBandInfo {
         public int LowFrequency { get; private set; }
 
