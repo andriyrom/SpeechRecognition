@@ -49,6 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CNTK\DataContainer.cs" />
+    <Compile Include="CNTK\IDataSource.cs" />
+    <Compile Include="CNTK\IFeatureWriter.cs" />
+    <Compile Include="CNTK\ISample.cs" />
     <Compile Include="Core\FilterBandInfo.cs" />
     <Compile Include="Core\FilterBank.cs" />
     <Compile Include="Core\FilterProcessResult.cs" />
