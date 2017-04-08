@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CNTK\CNTKTextFormatWriter.cs" />
     <Compile Include="CNTK\DataContainer.cs" />
     <Compile Include="CNTK\IDataSource.cs" />
     <Compile Include="CNTK\IFeatureWriter.cs" />
