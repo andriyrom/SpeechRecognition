@@ -9,6 +9,6 @@ namespace SpeechRecognition.CNTK {
     public interface IFeatureWriter {
         void WriteToFile(DataContainer data, String filePath);
 
-        void WriteToStream(DataContainer data, StreamWriter streamWritter);
+        void WriteToStream(DataContainer data, Stream streamWritter);
     }
 }
