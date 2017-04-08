@@ -53,6 +53,7 @@
     <Compile Include="CNTK\DataContainer.cs" />
     <Compile Include="CNTK\DataSource.cs" />
     <Compile Include="CNTK\DenseSample.cs" />
+    <Compile Include="CNTK\DenseSampleDataConverter.cs" />
     <Compile Include="CNTK\IDataSource.cs" />
     <Compile Include="CNTK\IFeatureWriter.cs" />
     <Compile Include="CNTK\ISample.cs" />
