@@ -57,11 +57,13 @@
     <Compile Include="CNTK\IDataSource.cs" />
     <Compile Include="CNTK\IFeatureWriter.cs" />
     <Compile Include="CNTK\ISample.cs" />
+    <Compile Include="Core\FrameFeatures.cs" />
+    <Compile Include="Core\FeaturesContainer.cs" />
     <Compile Include="Core\FilterBandInfo.cs" />
     <Compile Include="Core\FilterBank.cs" />
     <Compile Include="Core\FilterProcessResult.cs" />
     <Compile Include="Core\Frame.cs" />
-    <Compile Include="Core\FrameFeatures.cs" />
+    <Compile Include="Core\IFeatureExtractor.cs" />
     <Compile Include="Core\ISpeechDetector.cs" />
     <Compile Include="Core\SignalContainer.cs" />
     <Compile Include="Core\SignalHelper.cs" />

@@ -32,13 +32,5 @@ namespace SpeechRecognition.Core {
             }
             return crossingCount;
         }
-
-        public static List<FrameFeatures> GetFrameFeatures(double[] speechSignal, int frameWidth) {
-            var container = new SignalContainer(speechSignal) {
-                FrameSize = frameWidth
-            };
-            IList<Frame> frames = container.GetFrames();
-            return frames.Select(frame => new FrameFeatures(frame)).ToList();
-        }     
     }
 }
