@@ -24,5 +24,16 @@ namespace SpeechRecognition.CNTK {
         public IDataSource GetDataSource(string name) {
             return DataSources.First(dataSource => dataSource.Name == name);
         }
+
+        /// <summary>
+        /// Returns new DataContainer with current and added DataSources
+        /// </summary>
+        /// <param name="dataSource"></param>
+        /// <returns></returns>
+        public DataContainer AddDataSource(IDataSource dataSource) {
+            DataContainer newContainer = new DataContainer(DataSources);
+            newContainer.DataSources.Add(dataSource);
+            return newContainer;
+        }
     }
 }
