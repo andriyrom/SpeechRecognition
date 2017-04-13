@@ -65,6 +65,7 @@
     <Compile Include="Core\Frame.cs" />
     <Compile Include="Core\IFeatureExtractor.cs" />
     <Compile Include="Core\ISpeechDetector.cs" />
+    <Compile Include="Core\RawSignalFeatureExtrator.cs" />
     <Compile Include="Core\SignalContainer.cs" />
     <Compile Include="Core\SignalHelper.cs" />
     <Compile Include="Core\SpeechBounds.cs" />
