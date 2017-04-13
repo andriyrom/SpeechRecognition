@@ -10,7 +10,7 @@ namespace SpeechRecognition.Core {
             for (int i = firstSample; i <= lastSample; i++) {
                 result += Math.Pow(signal[i], 2);
             }
-            return result;
+            return Math.Sqrt(result);
         }
 
         public static double GetAverageEnergy(double[] signal) {
