@@ -29,7 +29,7 @@ namespace SpeechRecognition.CNTK {
         }
 
         private List<ISample> GetSamples(IList<IDataSource> dataSources) {
-            return dataSources.Select(dataSource => dataSource.NextSample()).ToList();
+            return dataSources.Select(dataSource => dataSource.NextSample()).Where(sample => sample != null).ToList();
         }
 
         private void ResetDataSources(IList<IDataSource> dataSources) {
