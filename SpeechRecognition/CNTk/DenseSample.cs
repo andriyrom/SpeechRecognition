@@ -16,7 +16,7 @@ namespace SpeechRecognition.CNTK {
         public string GetString() {
             StringBuilder sampleElementsString = new StringBuilder(); 
             foreach(double element in SampleElements) {
-                sampleElementsString.Append(string.Format("{1} ", element));
+                sampleElementsString.Append(string.Format("{0} ", element));
             }
             return sampleElementsString.ToString();
         }
