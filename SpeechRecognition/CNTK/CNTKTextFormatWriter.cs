@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SpeechRecognition.CNTK {
     public class CNTKTextFormatWriter : IFeatureWriter {
-        private const string FeatureTemplate = "|{1} {2}";
+        private const string FeatureTemplate = "|{0} {1}";
 
         public void WriteToFile(DataContainer data, string filePath) {
             FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
