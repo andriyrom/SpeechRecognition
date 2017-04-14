@@ -11,6 +11,7 @@ namespace SpeechRecognition.CNTK {
         public void AddDataSource(string name, IList<double[]> samples) {
             IList<ISample> dataSamples = samples.Select(sample => new DenseSample(sample) as ISample).ToList();
             DataSource dataSource = new DataSource(name, dataSamples);
+            DataSources.Add(dataSource);
         }
 
         public DataContainer GetDataContainer() {
