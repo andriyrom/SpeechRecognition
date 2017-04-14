@@ -8,6 +8,12 @@ namespace SpeechRecognition.Core {
     public class FeaturesContainer {
         private List<FrameFeatures> SignalFeatures;
 
+        public int FramesCount {
+            get {
+                return SignalFeatures.Count;
+            }
+        }
+
         public FeaturesContainer(IEnumerable<FrameFeatures> features) {
             if (!IsFeaturesSizeIdentical(features)) {
                 throw new ArgumentException("Feature vectors should have the same size.");
