@@ -47,8 +47,9 @@ namespace SpeechRecognition.CNTK {
         }
 
         private void WriteContentToFile(string fileContent, Stream file) {
-            StreamWriter writter = new StreamWriter(file);
-            writter.Write(fileContent);
+            using (StreamWriter writter = new StreamWriter(file)) {
+                writter.Write(fileContent);
+            }
         }
     }
 }
