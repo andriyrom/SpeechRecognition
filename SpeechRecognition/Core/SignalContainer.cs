@@ -6,65 +6,74 @@ using System.Threading.Tasks;
 
 namespace SpeechRecognition.Core {
     public class SignalContainer {
+        private bool ShouldRebuildFrames;
+
+        private List<Frame> Frames;
+
         public double[] Signal { 
             get {
-                if (vSignal == null) {
-                    vSignal = LinkInSignal(Frames);
-                }
-                return vSignal;
-            }            
+                return CopySignal(vSignal);
+            }
         }
         private double[] vSignal;
-             
-        public int FrameSize { get; set; }
 
-        private SignalContainer(SignalContainer other) : this(other.Signal) {
+        public int FrameSize { 
+            get {
+                return vFrameSize;
+            } 
+            set {
+                vFrameSize = value;
+                ShouldRebuildFrames = true;
+            } 
+        }
+        private int vFrameSize;
+
+        public int FrameShift {
+            get {
+                return vFrameShift;
+            }
+            set {
+                vFrameShift = value;
+                ShouldRebuildFrames = true;
+            }
+        }
+        private int vFrameShift;
+
+        private SignalContainer(SignalContainer other) {
             FrameSize = other.FrameSize;
+            FrameShift = other.FrameShift;
+            vSignal = other.Signal;
+            ShouldRebuildFrames = other.ShouldRebuildFrames;
             Frames = other.Frames == null ? null : new List<Frame>(other.Frames);
         }
 
         public SignalContainer(double[] signal) {
-            vSignal = new double[signal.Length];
-            signal.CopyTo(Signal, 0);
-            FrameSize = Signal.Length;
+            vSignal = CopySignal(signal);
+            FrameSize = vSignal.Length;
+            FrameShift = FrameSize;
+            ShouldRebuildFrames = true;
         }
 
-        public SignalContainer(IList<Frame> frames) {
-            int frameWidth = frames[0].Bounds.Width;
-            bool framesWithSameWidth = frames.All(frame => frame.Bounds.Width == frameWidth);
-            if (!framesWithSameWidth) {
-                throw new ArgumentException("Each frame should have the same width.");
-            }
-            Frames = new List<Frame>(frames);
+        private double[] CopySignal(double[] signal) {
+            var copiedSignal = new double[signal.Length];
+            signal.CopyTo(copiedSignal, 0);
+            return copiedSignal;
         }
 
         public List<Frame> GetFrames() {
-            if (Frames == null || Frames[0].Bounds.Width != FrameSize) {
-                Frames = SplitIntoFrames(Signal, FrameSize);
+            if (Frames == null || ShouldRebuildFrames) {
+                Frames = SplitIntoFrames(vSignal, FrameSize, FrameShift);
+                ShouldRebuildFrames = false;
             }
             return new List<Frame>(Frames);
-        }
-        private List<Frame> Frames;
+        }        
 
-        private double[] LinkInSignal(IList<Frame> frames) {
-            int signalSize = frames[0].Bounds.Width * frames.Count;
-            double[] singal = new double[signalSize];
-            var orderedFrames = frames.OrderBy(frame => frame.Bounds.Start);
-            int currentIndex = 0;
-            foreach(Frame frame in orderedFrames) {
-                frame.Signal.CopyTo(singal, currentIndex);
-                currentIndex += frame.Bounds.Width;
-            }
-            return singal;
-        }
-             
-        private List<Frame> SplitIntoFrames(double[] speechSignal, int frameWidth) {
-            int equalization = speechSignal.Length % frameWidth == 0 ? 0 : 1;
-            int frameCount = speechSignal.Length / frameWidth + equalization;
+        private List<Frame> SplitIntoFrames(double[] speechSignal, int frameWidth, int frameShift) {
+            int frameCount = GetFramesCount(speechSignal.Length, frameWidth, frameShift);
             var frames = new List<Frame>();
             for (int i = 0; i < frameCount; i++) {
-                int frameStart = i * frameWidth;
-                int frameEnd = GetFrameEnd(i, frameWidth, speechSignal.Length);
+                int frameStart = i * frameShift;
+                int frameEnd = GetFrameEnd(i, frameWidth, frameShift, speechSignal.Length);
                 var frameBounds = new SpeechBounds(frameStart, frameEnd);
                 double[] frameSingal = new double[frameBounds.Width];
                 Array.Copy(speechSignal, frameStart, frameSingal, 0, frameSingal.Length);
@@ -74,8 +83,18 @@ namespace SpeechRecognition.Core {
             return frames;
         }
 
-        private int GetFrameEnd(int frameNumber, int frameWidth, int signalLength) {
-            int precalculatedEnd = (frameNumber + 1) * frameWidth - 1;
+        private int GetFramesCount(int signalLength, int frameWidth, int frameShift) {
+            int frameCount = 1;
+            int signalUnderShiftedFrames = signalLength - frameWidth;
+            if (signalUnderShiftedFrames > 0) {
+                int equalization = signalUnderShiftedFrames % frameShift == 0 ? 0 : 1;
+                frameCount += signalUnderShiftedFrames / frameShift + equalization;
+            }             
+            return frameCount;
+        }
+
+        private int GetFrameEnd(int frameNumber, int frameWidth, int frameShift, int signalLength) {
+            int precalculatedEnd = frameNumber * frameShift + frameWidth - 1;
             return precalculatedEnd > signalLength ? signalLength - 1 : precalculatedEnd;
         }
 
