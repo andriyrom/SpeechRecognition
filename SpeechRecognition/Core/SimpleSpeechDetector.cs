@@ -13,8 +13,12 @@ namespace SpeechRecognition.Core {
             double averageEnergy = framesEnergy.Average();
             double[] flattenedFramesEnergy = ApplyMeanFilter(framesEnergy.ToArray(), 3);
             SpeechBounds speechFramesBounds = GetSpeechBounds(flattenedFramesEnergy, averageEnergy);
-            List<Frame> speechFrames = singal.GetFrames().Skip(speechFramesBounds.Start + 1).Take(speechFramesBounds.Width).ToList();
-            return new SignalContainer(speechFrames);
+            var speechFrames = singal.GetFrames().Skip(speechFramesBounds.Start + 1).Take(speechFramesBounds.Width);
+            double[] speechSignal = speechFrames.SelectMany(frame => frame.Signal).ToArray(); 
+            return new SignalContainer(speechSignal) {
+                FrameSize = rawSignal.FrameSize,
+                FrameShift = rawSignal.FrameShift
+            };
         }
 
         private SpeechBounds GetSpeechBounds(double[] framesEnergy, double averageEnergy) {
