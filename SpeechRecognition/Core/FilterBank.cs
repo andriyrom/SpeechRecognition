@@ -46,6 +46,10 @@ namespace SpeechRecognition.Core {
             return processResult;
         }
 
+        public void Reset() {
+            Filters.ForEach(filterInfo => filterInfo.Filter.Reset());
+        }
+
         private class FilterInfo {
             public OnlineFirFilter Filter { get; private set; }
 
