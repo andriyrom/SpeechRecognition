@@ -57,6 +57,8 @@
     <Compile Include="CNTK\IDataSource.cs" />
     <Compile Include="CNTK\IFeatureWriter.cs" />
     <Compile Include="CNTK\ISample.cs" />
+    <Compile Include="Core\FilterBankParameters.cs" />
+    <Compile Include="Core\RepeatFilterBankFeatureExtractor.cs" />
     <Compile Include="Core\FrameFeatures.cs" />
     <Compile Include="Core\FeaturesContainer.cs" />
     <Compile Include="Core\FilterBandInfo.cs" />
