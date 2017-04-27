@@ -9,11 +9,12 @@ namespace SpeechRecognition.Core {
         public SignalContainer GetSpeech(SignalContainer rawSignal) {
             SignalContainer singal = rawSignal.Copy();
             singal.FrameSize = 100; //ToDo! Constant change 
+            singal.FrameShift = singal.FrameSize;
             List<double> framesEnergy = singal.GetFrames().Select(frame => SignalHelper.GetAverageEnergy(frame.Signal)).ToList();
             double averageEnergy = framesEnergy.Average();
             double[] flattenedFramesEnergy = ApplyMeanFilter(framesEnergy.ToArray(), 3);
             SpeechBounds speechFramesBounds = GetSpeechBounds(flattenedFramesEnergy, averageEnergy);
-            var speechFrames = singal.GetFrames().Skip(speechFramesBounds.Start + 1).Take(speechFramesBounds.Width);
+            var speechFrames = singal.GetFrames().Skip(speechFramesBounds.Start).Take(speechFramesBounds.Width);
             double[] speechSignal = speechFrames.SelectMany(frame => frame.Signal).ToArray(); 
             return new SignalContainer(speechSignal) {
                 FrameSize = rawSignal.FrameSize,

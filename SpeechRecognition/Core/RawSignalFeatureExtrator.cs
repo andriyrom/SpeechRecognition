@@ -16,11 +16,8 @@ namespace SpeechRecognition.Core {
         }
 
         public FeaturesContainer GetFeatures(SignalContainer signal) {
-            int initialFrameSize = signal.FrameSize;
-            SignalContainer speech = SpeechDetector.GetSpeech(signal);
-            speech.FrameSize = initialFrameSize;
-            var features = speech.GetFrames().Select(frame => new FrameFeatures(frame.Bounds, frame.Signal)).
-                Where(feature => feature.FeatureDimension == initialFrameSize).ToList();
+            var features = signal.GetFrames().Select(frame => new FrameFeatures(frame.Bounds, frame.Signal)).
+                Where(feature => feature.FeatureDimension == signal.FrameSize).ToList();
             return new FeaturesContainer(features);
         }
     }
