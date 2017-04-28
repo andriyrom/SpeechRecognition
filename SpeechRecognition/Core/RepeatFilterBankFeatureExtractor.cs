@@ -51,7 +51,7 @@ namespace SpeechRecognition.Core {
         }
 
         private double[] GetChannelsEnergy(IList<FilterProcessResult> channelsSignal) {
-            var channelsRawEnergy = channelsSignal.Select(channel => SignalHelper.GetEnergy(channel.FilteredSignal, 0, channel.FilteredSignal.Length));
+            var channelsRawEnergy = channelsSignal.Select(channel => SignalHelper.GetEnergy(channel.FilteredSignal, 0, channel.FilteredSignal.Length - 1));
             double maxEnergy = channelsRawEnergy.Max(channel => Math.Abs(channel));
             return channelsRawEnergy.Select(channelEnergy => channelEnergy / maxEnergy).ToArray();
         }
