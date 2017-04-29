@@ -18,14 +18,14 @@ namespace SpeechRecognition.CNTK {
         public void WriteToStream(DataContainer data, Stream stream) {
             IList<IDataSource> dataSources = data.GetDataSources();
             string[] dataSourceNames = data.GetDataSourceNames().ToArray();
-            StringBuilder textFileContent = new StringBuilder();
+            StringBuilder textContent = new StringBuilder();
             List<ISample> currentSamples = GetSamples(dataSources);
             while (currentSamples.Any()) {
-                AddFeatureString(textFileContent, dataSourceNames, currentSamples);
+                AddFeatureString(textContent, dataSourceNames, currentSamples);
                 currentSamples = GetSamples(dataSources);
             }
             ResetDataSources(dataSources);
-            WriteContentToFile(textFileContent.ToString(), stream);
+            WriteContentToStream(textContent.ToString(), stream);
         }
 
         private List<ISample> GetSamples(IList<IDataSource> dataSources) {
@@ -46,9 +46,9 @@ namespace SpeechRecognition.CNTK {
             textFileContent.AppendLine();
         }
 
-        private void WriteContentToFile(string fileContent, Stream file) {
-            using (StreamWriter writter = new StreamWriter(file)) {
-                writter.Write(fileContent);
+        private void WriteContentToStream(string content, Stream stream) {
+            using (StreamWriter writter = new StreamWriter(stream)) {
+                writter.Write(content);
             }
         }
     }
