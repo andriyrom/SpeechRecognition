@@ -42,6 +42,12 @@ namespace SpeechRecognition.Core {
             return sequentialFeatures;
         }
 
+        public SpeechBounds GetBounds() {
+            int start = SignalFeatures.First().FrameBounds.Start;
+            int end = SignalFeatures.Last().FrameBounds.End;
+            return new SpeechBounds(start, end);
+        }
+
         public List<double[]> GetSeparately() {
             return SignalFeatures.Select(frameFeatures => frameFeatures.Features).ToList();
         }
